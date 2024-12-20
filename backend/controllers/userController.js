@@ -3,18 +3,35 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utilities/createToken.js";
 
+// Tạo user mới
 const createUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
-  if (!username || !email || !password) {
-    throw new Error("pls fill all the inputs!!");
-  }
-  const userExists = await User.findOne({ email });
-  if (userExists) res.status(400).send("User already exists");
 
+  // Kiểm tra nếu không có đủ thông tin
+  if (!username || !email || !password) {
+    res.status(400);
+    throw new Error("Please fill all the inputs!!");
+  }
+
+  // Kiểm tra xem user đã tồn tại chưa
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    res.status(400).json({ message: "User already exists" });
+    return;
+  }
+
+  // Hash mật khẩu
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-  const newUser = new User({ username, email, password: hashedPassword });
 
+  // Tạo user mới
+  const newUser = new User({
+    username,
+    email,
+    password: hashedPassword,
+  });
+
+  // Lưu user và trả về response
   try {
     await newUser.save();
     createToken(res, newUser._id);
@@ -25,29 +42,52 @@ const createUser = asyncHandler(async (req, res) => {
       isAdmin: newUser.isAdmin,
     });
   } catch (error) {
-    res.status(400);
-    throw new Error("Invalid user data!!");
+    res.status(500).json({ message: "Error creating user. Please try again." });
   }
 });
 
+// Đăng nhập user
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  // Kiểm tra nếu không cung cấp đủ thông tin
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please provide email and password!!");
+  }
+
+  // Tìm user theo email
   const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-    if (isPasswordValid) {
-      createToken(res, existingUser._id);
-      res.status(201).json({
-        _id: existingUser._id,
-        username: existingUser.username,
-        email: existingUser.email,
-        isAdmin: existingUser.isAdmin,
-      });
-      return //exit the function after sending the response
-    }
+  if (!existingUser) {
+    res.status(401).json({ message: "Invalid email or password" });
+    return;
+  }
+
+  // So sánh mật khẩu
+  const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+  if (isPasswordValid) {
+    createToken(res, existingUser._id);
+    res.status(200).json({
+      _id: existingUser._id,
+      username: existingUser.username,
+      email: existingUser.email,
+      isAdmin: existingUser.isAdmin,
+    });
+  } else {
+    res.status(401).json({ message: "Invalid email or password" });
   }
 });
-export { createUser };
+
+const logoutCurrentUser = asyncHandler(async(req,res) =>{
+  res.cookie('jwt', '' ,{
+    httpOnly: true,
+    expires: new Date(0),
+  })
+  res.status(200).json({message: "logged out success!!"});
+});
+
+const getAllUsers = asyncHandler(async (req,res) => {
+  const users = await User.find({})
+  res.json(users)
+})
+export { createUser, loginUser ,logoutCurrentUser, getAllUsers};
