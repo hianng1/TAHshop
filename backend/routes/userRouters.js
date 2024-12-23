@@ -8,6 +8,7 @@ import {
   updateCurrentProfile,
   deleteUserById,
   getUserById,
+  updateUserById
 } from "../controllers/userController.js";
 import {
   authenticate,
@@ -33,4 +34,5 @@ router
   .delete(authenticate, authorizedAdmin, deleteUserById)
   .get(authenticate, authorizedAdmin, getUserById)
   .put(authenticate,authorizedAdmin, updateUserById);
-export default router;
+
+  export default router;
