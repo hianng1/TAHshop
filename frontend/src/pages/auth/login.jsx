@@ -47,7 +47,7 @@ const Login = () => {
             <div className="my-[2rem]">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-black"
+                className="block text-sm font-medium text-white"
               >
                 Email Address
               </label>
@@ -64,7 +64,7 @@ const Login = () => {
             <div className="my-[2rem]">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-black"
+                className="block text-sm font-medium text-white"
               >
                 Password
               </label>
@@ -87,7 +87,7 @@ const Login = () => {
             {isLoading && <Loader />}
           </form>
           <div className="mt-4">
-            <p className="text-black">
+            <p className="text-white">
               New Customer ?{" "}
               <Link
                 to={redirect ? `/register?redirect=${redirect}` : "/register"}
@@ -101,7 +101,7 @@ const Login = () => {
         <img
           src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80"
           alt=""
-          className="h-[35rem] w-[35%] xl:block md:hidden sm:hidden rounded-lg"
+          className="h-[65rem] w-[59%] xl:block md:hidden sm:hidden rounded-lg"
         />
       </section>
     </div>
