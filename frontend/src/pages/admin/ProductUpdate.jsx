@@ -65,7 +65,7 @@ const AdminProductUpdate = () => {
       });
       setImage(res.image);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       toast.success("Item added successfully", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
@@ -109,50 +109,6 @@ const AdminProductUpdate = () => {
       });
     }
   };
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log({
-  //     image,
-  //     name,
-  //     description,
-  //     price,
-  //     category,
-  //     quantity,
-  //     brand,
-  //     stock,
-  //   }); // Kiểm tra dữ liệu
-  
-  //   try {
-  //     const response = await updateProduct({
-  //       productId: params._id,
-  //       formData: {
-  //         image,
-  //         name,
-  //         description,
-  //         price,
-  //         category,
-  //         quantity,
-  //         brand,
-  //         countInStock: stock,
-  //       },
-  //     }).unwrap();
-  
-  //     console.log(response); // Kiểm tra phản hồi từ API
-  //     toast.success("Product successfully updated", {
-  //       position: toast.POSITION.TOP_RIGHT,
-  //       autoClose: 2000,
-  //     });
-  //     navigate("/admin/allproducts");
-  //   } catch (err) {
-  //     console.error(err);
-  //     toast.error(err?.data?.message || "Product update failed. Try again.", {
-  //       position: toast.POSITION.TOP_RIGHT,
-  //       autoClose: 2000,
-  //     });
-  //   }
-  // };
-  
-  
 
   const handleDelete = async () => {
     try {
