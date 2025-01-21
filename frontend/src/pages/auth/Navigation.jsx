@@ -12,8 +12,12 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./Navigation.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useLoginMutation , useLogoutMutation} from "../../redux/api/usersApiSlice";
+import {
+  useLoginMutation,
+  useLogoutMutation,
+} from "../../redux/api/usersApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
+import FavoritesCount from "../Products/FavoritesCount"; 
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -76,7 +80,10 @@ const Navigation = () => {
           className="flex items-center transition-transform transform hover:translate-x-2"
         >
           <FaHeart className="mr-2 mt-[3rem]" size={26} />
-          <span className="hidden nav-item-name mt-[3rem]">Favourite</span>{" "}
+          <span className="hidden nav-item-name mt-[3rem]">
+            Favourite
+          </span>{" "}
+          <FavoritesCount />
         </Link>
       </div>
       <div className="relative">
@@ -193,7 +200,9 @@ const Navigation = () => {
               className="flex items-center transition-transform transform hover:translate-x-2"
             >
               <AiOutlineUserAdd className="mr-2 mt-[3rem]" size={26} />
-              <span className="hidden nav-item-name mt-[3rem]">Register</span>{" "}
+              <span className="hidden nav-item-name mt-[3rem]">
+                Register
+              </span>{" "}
             </Link>
           </li>
         </ul>

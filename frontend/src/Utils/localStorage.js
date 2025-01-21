@@ -3,7 +3,7 @@ export const addFavoriteToLocalStorage = (product) => {
     const favorites = getFavoritesFromLocalStorage()
     if(!favorites.some((p) => p._id === product._id)){
         favorites.push(product);
-        localStorage.setItem('favorites', JSON.stringtify(favorites))
+        localStorage.setItem('favorites', JSON.stringify(favorites))
     }
 }
 //remove a product from a local storage
