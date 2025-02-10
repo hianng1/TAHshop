@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { FaHeart, FaRegHeart, FaVaadin } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import {
-    addToFavourite,
-    removeFromFavourite,
-    setFavourites,
+    addToFavorites,
+    removeFromFavorites,
+    setFavorites,
 } from "../../redux/features/favourites/favoriteSlice.js";
 
 import {
@@ -20,16 +20,16 @@ const HeartIcon = ({ product }) => {
 
   useEffect(() => {
     const favoritesFromLocalStorage = getFavoritesFromLocalStorage();
-    dispatch(setFavourites(favoritesFromLocalStorage));
+    dispatch(setFavorites(favoritesFromLocalStorage));
   }, [dispatch]);
 
   const toggleFavorites = () => {
     if (isFavorite) {
-      dispatch(removeFromFavourite(product));
+      dispatch(removeFromFavorites(product));
       // remove the product from the localStorage as well
       removeFavoritesFromLocalStorage(product._id);
     } else {
-      dispatch(addToFavourite(product));
+      dispatch(addToFavorites(product));
       // add the product to localStorage as well
       addFavoriteToLocalStorage(product);
     }

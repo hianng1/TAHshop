@@ -1,28 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const favouriteSlice = createSlice({
-    name: 'favourite',
-    initialState: [],
-    reducers: {
-        addToFavourite: (state, action) => {
-            // Thêm sản phẩm vào favorites nếu chưa tồn tại
-            if (!state.some((product) => product._id === action.payload._id)) {
-                state.push(action.payload);
-            }
-        },
-        removeFromFavourite: (state, action) => {
-            // Loại bỏ sản phẩm khỏi favorites dựa trên ID
-            return state.filter((product) => product._id !== action.payload._id);
-        },
-        setFavourites: (state, action) => {
-            // Cập nhật danh sách favorites từ localStorage
-            return action.payload;
-        },
+const favoriteSlice = createSlice({
+  name: "favorites",
+  initialState: [],
+  reducers: {
+    addToFavorites: (state, action) => {
+      // Checkif the product is not already favorites
+      if (!state.some((product) => product._id === action.payload._id)) {
+        state.push(action.payload);
+      }
     },
+    removeFromFavorites: (state, action) => {
+      // Remove the product with the matching ID
+      return state.filter((product) => product._id !== action.payload._id);
+    },
+    setFavorites: (state, action) => {
+      // Set the favorites from localStorage
+      return action.payload;
+    },
+  },
 });
 
-// Xuất các action và reducer
-export const { addToFavourite, removeFromFavourite, setFavourites } =
-  favouriteSlice.actions;
-export const selectFavouriteProducts = (state) => state.favourite; // Thay đổi tên selector cho phù hợp
-export default favouriteSlice.reducer;
+export const { addToFavorites, removeFromFavorites, setFavorites } =
+  favoriteSlice.actions;
+export const selectFavoriteProduct = (state) => state.favorites;
+export default favoriteSlice.reducer;

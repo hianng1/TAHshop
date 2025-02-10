@@ -76,12 +76,12 @@ const Navigation = () => {
           <span className="hidden nav-item-name mt-[3rem]">Cart</span>{" "}
         </Link>
         <Link
-          to="/favourite"
+          to="/favorite"
           className="flex items-center transition-transform transform hover:translate-x-2"
         >
           <FaHeart className="mr-2 mt-[3rem]" size={26} />
           <span className="hidden nav-item-name mt-[3rem]">
-            Favourite
+            Favorite
           </span>{" "}
           <FavoritesCount />
         </Link>
