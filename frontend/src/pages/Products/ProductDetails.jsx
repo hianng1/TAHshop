@@ -7,7 +7,7 @@ import {
   useCreateReviewMutation,
 } from "../../redux/api/productApiSlice";
 import Loader from "../../components/Loader";
-import Message from "../../components/message";
+import Message from "../../components/Message"; // Đảm bảo tên file đúng
 import {
   FaBox,
   FaClock,
@@ -34,19 +34,23 @@ const ProductDetails = () => {
   } = useGetProductDetailsQuery(productId);
   const { userInfo } = useSelector((state) => state.auth);
   const [createReview, { isLoading: loadingProductReview }] =
-  useCreateReviewMutation();
+    useCreateReviewMutation();
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       await createReview({
-        productId, rating, comment
-      }).unwrap()
+        productId,
+        rating,
+        comment,
+      }).unwrap();
       refetch();
-      toast.success('Review created success')
+      toast.success('Review created successfully');
     } catch (error) {
-        toast.error(error?.data?.message || error.message)
+      toast.error(error?.data?.message || error.message);
     }
-  }
+  };
+
   return (
     <>
       <div>
@@ -95,7 +99,7 @@ const ProductDetails = () => {
                 </div>
                 <div className="two">
                   <h1 className="flex items-center mb-6">
-                    <FaStar className="mr-2 text-white" /> Ratings: {rating}
+                    <FaStar className="mr-2 text-white" /> Ratings: {product.rating}
                   </h1>
                   <h1 className="flex items-center mb-6">
                     <FaShoppingCart className="mr-2 text-white" /> Quantity:{" "}
@@ -116,7 +120,7 @@ const ProductDetails = () => {
                   <div>
                     <select
                       value={qty}
-                      onChange={(e) => setQty(e.target.value)}
+                      onChange={(e) => setQty(Number(e.target.value))}
                       className="p-2 w-[6rem] rounded-lg text-black"
                     >
                       {[...Array(product.countInStock).keys()].map((x) => (
@@ -139,14 +143,16 @@ const ProductDetails = () => {
               </div>
             </div>
             <div className="mt-[5rem] container flex flex-wrap items-start justify-between ml-[10rem]">
-              <ProductTabs loadingProductReview={loadingProductReview}
-              userInfo={userInfo}
-              submitHandler={submitHandler}
-              rating={rating}
-              setRating={setRating}
-              comment={comment}
-              setComment={setComment}
-              product={product}/>
+              <ProductTabs
+                loadingProductReview={loadingProductReview}
+                userInfo={userInfo}
+                submitHandler={submitHandler}
+                rating={rating}
+                setRating={setRating}
+                comment={comment}
+                setComment={setComment}
+                product={product}
+              />
             </div>
           </div>
         </>
@@ -154,5 +160,4 @@ const ProductDetails = () => {
     </>
   );
 };
-// 1:51:04 rating sai, phai sua
 export default ProductDetails;

@@ -17,6 +17,7 @@ const ProductTabs = ({
 }) => {
   const { data, isLoading } = useGetTopProductsQuery();
   const [activeTab, setActiveTab] = useState(1);
+
   if (isLoading) {
     return <Loader />;
   }
@@ -24,11 +25,12 @@ const ProductTabs = ({
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
+
   return (
     <div className="flex flex-col md:flex-row">
       <section className="mr-[5rem]">
         <div
-          className={`flex-1 p-4 cursor-ponter text-lg ${
+          className={`flex-1 p-4 cursor-pointer text-lg ${
             activeTab === 1 ? "font-bold" : ""
           }`}
           onClick={() => handleTabClick(1)}
@@ -36,22 +38,23 @@ const ProductTabs = ({
           Write Your Review
         </div>
         <div
-          className={`flex-1 p-4 cursor-ponter text-lg ${
-            activeTab === 1 ? "font-bold" : ""
+          className={`flex-1 p-4 cursor-pointer text-lg ${
+            activeTab === 2 ? "font-bold" : ""
           }`}
           onClick={() => handleTabClick(2)}
         >
           All Reviews
         </div>
         <div
-          className={`flex-1 p-4 cursor-ponter text-lg ${
-            activeTab === 1 ? "font-bold" : ""
+          className={`flex-1 p-4 cursor-pointer text-lg ${
+            activeTab === 3 ? "font-bold" : ""
           }`}
           onClick={() => handleTabClick(3)}
         >
           Related Products
         </div>
       </section>
+
       {/* Second Part */}
       <section>
         {activeTab === 1 && (
@@ -83,7 +86,7 @@ const ProductTabs = ({
                     Comment
                   </label>
                   <textarea
-                    name=""
+                    name="comment"
                     id="comment"
                     rows={3}
                     required
@@ -91,9 +94,16 @@ const ProductTabs = ({
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     className="p-2 border rounded-lg xl:w-[40rem] text-black"
+                    aria-describedby="comment-help"
                   ></textarea>
                 </div>
-                <button type="submit" disabled={loadingProductReview} className="bg-pink-600 text-white py-2 px-4 rounded-lg">Submit</button>
+                <button
+                  type="submit"
+                  disabled={loadingProductReview}
+                  className="bg-pink-600 text-white py-2 px-4 rounded-lg"
+                >
+                  Submit
+                </button>
               </form>
             ) : (
               <p>
@@ -103,6 +113,46 @@ const ProductTabs = ({
                 </Link>{" "}
                 to write a review
               </p>
+            )}
+          </div>
+        )}
+
+        {activeTab === 2 && (
+          <>
+            {product.reviews.length === 0 ? (
+              <p>No Reviews</p>
+            ) : (
+              <div>
+                {product.reviews.map((review) => (
+                  <div
+                    key={review._id}
+                    className="bg-[#1A1A1A] p-4 rounded-lg xl:ml-[2rem] sm:ml-[0rem] xl:w-[50rem] sm:w-[24rem] mb-5"
+                  >
+                    <div className="flex justify-between">
+                      <strong className="text-[#B0B0B0]">{review.name}</strong>
+                      <p className="text-[#B0B0B0]">
+                        {review.createdAt.substring(0, 10)}
+                      </p>
+                    </div>
+                    <p className="my-4">{review.comment}</p>
+                    <Rating value={review.rating} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === 3 && (
+          <div className="ml-[4rem] flex flex-wrap">
+            {!data || data.length === 0 ? (
+              <Loader />
+            ) : (
+              data.map((product) => (
+                <div key={product._id}>
+                  <SmallProduct product={product} />
+                </div>
+              ))
             )}
           </div>
         )}

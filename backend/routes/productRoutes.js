@@ -29,7 +29,7 @@ router.route("/allproducts").get(fetchAllProducts);
 router.get('/new', fetchNewProduct)
 router
   .route("/:id/reviews")
-  .post(authenticate, authorizedAdmin, checkId, addProductReview);
+  .post(authenticate, checkId, addProductReview);
 router
   .route("/:id")
   .get(fetchProductById)

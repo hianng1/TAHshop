@@ -59,7 +59,7 @@ const Register = () => {
             <input
               type="text"
               id="name"
-              className="mt-1 p-2 border rounded w-full text-white"
+              className="mt-1 p-2 border rounded w-full"
               placeholder="Enter name?"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -75,7 +75,7 @@ const Register = () => {
             <input
               type="email"
               id="email"
-              className="mt-1 p-2 border rounded w-full text-white"
+              className="mt-1 p-2 border rounded w-full"
               placeholder="Enter email?"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -91,7 +91,7 @@ const Register = () => {
             <input
               type="password"
               id="password"
-              className="mt-1 p-2 border rounded w-full text-white"
+              className="mt-1 p-2 border rounded w-full"
               placeholder="Enter password?"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -107,7 +107,7 @@ const Register = () => {
             <input
               type="password"
               id="confirmPassword"
-              className="mt-1 p-2 border rounded w-full text-white"
+              className="mt-1 p-2 border rounded w-full"
               placeholder="Confirm password?"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
