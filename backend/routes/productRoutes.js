@@ -11,7 +11,8 @@ import {
   fetchAllProducts,
   addProductReview,
   fetchTopProduct,
-  fetchNewProduct
+  fetchNewProduct,
+  filterProducts
 } from "../controllers/productController.js";
 const router = express.Router();
 import {
