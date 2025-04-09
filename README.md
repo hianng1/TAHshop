@@ -30,10 +30,10 @@ Make sure you have the following installed:
 
 ### Step 2: Clone the Repository
 
-if you use cmd on Windowns, you can use the command belew:
+if you use cmd on Windowns, you can use the command below in the folder you want:
 
 git clone https://github.com/your-username/TAHshop.git
-cd TAHshop
+
 
 ### Step 3: Install Dependencies
 
