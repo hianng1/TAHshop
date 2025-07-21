@@ -10,7 +10,7 @@ import {
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./Navigation.css";
+import "./navigation.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   useLoginMutation,

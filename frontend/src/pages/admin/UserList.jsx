@@ -9,7 +9,7 @@ import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from "../../redux/api/usersApiSlice.js";
-import Message from "../../components/message";
+import Message from "../../components/Message";
 
 const UserList = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();

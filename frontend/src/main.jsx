@@ -10,7 +10,7 @@ import store from "./redux/store.js";
 import Login from "./pages/auth/login.jsx";
 import Register from "./pages/auth/Register.jsx";
 
-import PrivateRoute from "./components/privateRoute.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 import Profile from "./pages/user/Profile.jsx";
 
 import AdminRoute from "./pages/admin/AdminRoute.jsx";
