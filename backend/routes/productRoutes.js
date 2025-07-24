@@ -1,4 +1,3 @@
-// import React from 'react'
 import express from "express";
 import formidable from "express-formidable";
 import checkId from "../middlewares/checkId.js";

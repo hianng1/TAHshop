@@ -17,16 +17,16 @@ const shopSlice = createSlice({
             state.categories = action.payload
         },
         setProducts: (state, action) => {
-            state.categories = action.payload
+            state.products = action.payload
         },
         setChecked: (state, action) => {
-            state.categories = action.payload
+            state.checked = action.payload
         },
         setRadio: (state, action) => {
-            state.categories = action.payload
+            state.radio = action.payload
         },
         setSelectedBrand: (state, action) => {
-            state.categories = action.payload
+            state.checkedBrands = action.payload
         },
     },
 });

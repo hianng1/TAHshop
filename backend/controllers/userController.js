@@ -1,7 +1,7 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-import createToken from "../utilities/createToken.js";
+import generateToken from "../utilities/createToken.js";
 
 // Tạo user mới
 const createUser = asyncHandler(async (req, res) => {
@@ -11,6 +11,19 @@ const createUser = asyncHandler(async (req, res) => {
   if (!username || !email || !password) {
     res.status(400);
     throw new Error("Please fill all the inputs!!");
+  }
+
+  // Validate password length
+  if (password.length < 6) {
+    res.status(400);
+    throw new Error("Password must be at least 6 characters long");
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    res.status(400);
+    throw new Error("Please provide a valid email address");
   }
 
   // Kiểm tra xem user đã tồn tại chưa
@@ -34,7 +47,7 @@ const createUser = asyncHandler(async (req, res) => {
   // Lưu user và trả về response
   try {
     await newUser.save();
-    createToken(res, newUser._id);
+    generateToken(res, newUser._id);
     res.status(201).json({
       _id: newUser._id,
       username: newUser.username,
@@ -66,7 +79,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // So sánh mật khẩu
   const isPasswordValid = await bcrypt.compare(password, existingUser.password);
   if (isPasswordValid) {
-    createToken(res, existingUser._id);
+    generateToken(res, existingUser._id);
     res.status(200).json({
       _id: existingUser._id,
       username: existingUser.username,

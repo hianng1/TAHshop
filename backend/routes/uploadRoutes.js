@@ -28,7 +28,13 @@ const fileFilter = (req, file, cb) => {
         cb(new Error("Images only"))
     }
 }
-const upload = multer({storage, fileFilter})
+const upload = multer({
+    storage, 
+    fileFilter,
+    limits: {
+        fileSize: 5 * 1024 * 1024 // 5MB limit
+    }
+})
 const uploadSingleImage = upload.single('image')
 
 router.post('/', (req, res) => {

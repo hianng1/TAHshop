@@ -58,97 +58,148 @@ const ProductDetails = () => {
   }
 
   return (
-    <>
-      <div>
-        <Link
-          to="/"
-          className="text-white font-semibold hover:underline ml-[10rem]"
-        >
-          Go Back
-        </Link>
-      </div>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant="danger">
-          {error?.data?.message || error.message}
-        </Message>
-      ) : (
-        <>
-          <div className="flex flex-wrap relative items-between mt-[2rem] ml-[10rem]">
-            <div className="">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full xl:w-[50rem] lg:w-[45rem] md:w-[30rem] sm:w-[20rem] mr-[2rem]"
-              />
-              <HeartIcon product={product} />
-            </div>
-            <div className="flex flex-col justify-between">
-              <h2 className="text-2xl font-semibold">{product.name}</h2>
-              <p className="my-4 xl:w-[35rem] lg:w-[35rem] md:w-[30rem] text-[#B0B0B0]">
-                {product.description}
-              </p>
-              <p className="text-5xl my-4 font-extrabold">$ {product.price}</p>
-              <div className="flex items-center justify-between w-[20rem]">
-                <div className="one">
-                  <h1 className="flex items-center mb-6">
-                    <FaStore className="mr-2" /> Brand: {product.brand}
-                  </h1>
-                  <h1 className="flex items-center mb-6 w-[20rem]">
-                    <FaClock className="mr-2" /> Added:{" "}
-                    {moment(product.createAt).fromNow()}
-                  </h1>
-                  <h1 className="flex items-center mb-6">
-                    <FaStar className="mr-2" /> Reviews: {product.numReviews}
-                  </h1>
-                </div>
-                <div className="two">
-                  <h1 className="flex items-center mb-6">
-                    <FaStar className="mr-2 text-white" /> Ratings: {product.rating}
-                  </h1>
-                  <h1 className="flex items-center mb-6">
-                    <FaShoppingCart className="mr-2 text-white" /> Quantity:{" "}
-                    {product.quantity}
-                  </h1>
-                  <h1 className="flex items-center mb-6 w-[10rem]">
-                    <FaStar className="mr-2 text-white" /> In Stock:{" "}
-                    {product.countInStock}
-                  </h1>
-                </div>
-              </div>
-              <div className="flex justify-between flex-wrap">
-                <Rating
-                  value={product.rating}
-                  text={`${product.numReviews} reviews`}
-                />
-                {product.countInStock > 0 && (
-                  <div>
-                    <select
-                      value={qty}
-                      onChange={(e) => setQty(Number(e.target.value))}
-                      className="p-2 w-[6rem] rounded-lg text-black"
-                    >
-                      {[...Array(product.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </select>
+    <div className="min-h-screen bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        {/* Back button */}
+        <div className="mb-8">
+          <Link
+            to="/"
+            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-300 font-semibold"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Go Back
+          </Link>
+        </div>
+
+        {isLoading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant="danger">
+            {error?.data?.message || error.message}
+          </Message>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+              {/* Product Image */}
+              <div className="relative">
+                <div className="bg-gray-800 rounded-2xl p-6 shadow-xl">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-96 object-cover rounded-xl"
+                  />
+                  <div className="absolute top-8 right-8">
+                    <HeartIcon product={product} />
                   </div>
-                )}
+                </div>
               </div>
-              <div className="btn-container">
-                <button
-                  onClick={addToCartHandler}
-                  disabled={product.countInStock === 0}
-                  className="bg-pink-600 text-white py-2 px-4 rounded-lg mt-4 md:mt-0"
-                >
-                  Add To Cart
-                </button>
+
+              {/* Product Info */}
+              <div className="space-y-6">
+                <div>
+                  <h1 className="text-4xl font-bold text-white mb-4">{product.name}</h1>
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    {product.description}
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded-2xl">
+                  <div className="bg-gray-800 rounded-2xl p-6">
+                    <span className="text-4xl font-bold text-white">
+                      ${product.price}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Rating */}
+                <div className="bg-gray-800 rounded-xl p-4">
+                  <Rating
+                    value={product.rating}
+                    text={`${product.numReviews} reviews`}
+                  />
+                </div>
+
+                {/* Product Details Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-800 rounded-xl p-4">
+                    <div className="flex items-center text-gray-300">
+                      <FaStore className="mr-3 text-blue-400" />
+                      <div>
+                        <p className="text-sm text-gray-400">Brand</p>
+                        <p className="font-semibold">{product.brand}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-4">
+                    <div className="flex items-center text-gray-300">
+                      <FaClock className="mr-3 text-green-400" />
+                      <div>
+                        <p className="text-sm text-gray-400">Added</p>
+                        <p className="font-semibold">{moment(product.createdAt).fromNow()}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-4">
+                    <div className="flex items-center text-gray-300">
+                      <FaStar className="mr-3 text-yellow-400" />
+                      <div>
+                        <p className="text-sm text-gray-400">Rating</p>
+                        <p className="font-semibold">{product.rating} / 5</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800 rounded-xl p-4">
+                    <div className="flex items-center text-gray-300">
+                      <FaShoppingCart className="mr-3 text-purple-400" />
+                      <div>
+                        <p className="text-sm text-gray-400">In Stock</p>
+                        <p className="font-semibold">{product.countInStock} units</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quantity Selector and Add to Cart */}
+                <div className="space-y-4">
+                  {product.countInStock > 0 && (
+                    <div className="flex items-center space-x-4">
+                      <label className="text-gray-300 font-medium">Quantity:</label>
+                      <select
+                        value={qty}
+                        onChange={(e) => setQty(Number(e.target.value))}
+                        className="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={addToCartHandler}
+                    disabled={product.countInStock === 0}
+                    className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${
+                      product.countInStock === 0
+                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white transform hover:scale-105 shadow-lg'
+                    }`}
+                  >
+                    {product.countInStock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="mt-[5rem] container flex flex-wrap items-start justify-between ml-[10rem]">
+
+            {/* Product Tabs Section */}
+            <div className="bg-gray-800 rounded-2xl p-6 shadow-xl">
               <ProductTabs
                 loadingProductReview={loadingProductReview}
                 userInfo={userInfo}
@@ -160,10 +211,10 @@ const ProductDetails = () => {
                 product={product}
               />
             </div>
-          </div>
-        </>
-      )}
-    </>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 export default ProductDetails;

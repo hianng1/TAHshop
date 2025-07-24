@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
+    const { name, description, price, category, quantity, brand, countInStock } = req.fields;
     // console.log(name)
     // console.log(description)
     // console.log(price)
@@ -24,7 +24,14 @@ const addProduct = asyncHandler(async (req, res) => {
       case !quantity:
         return res.json({ error: "quantity is required!" });
     }
-    const product = new Product({ ...req.fields });
+    
+    const productData = { ...req.fields };
+    // Ensure countInStock is set, use quantity if countInStock is not provided
+    if (!productData.countInStock && productData.quantity) {
+      productData.countInStock = productData.quantity;
+    }
+    
+    const product = new Product(productData);
     await product.save();
     res.json(product);
   } catch (error) {
@@ -35,7 +42,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
+    const { name, description, price, category, quantity, brand, countInStock } = req.fields;
     switch (true) {
       case !name:
         return res.json({ error: "Name is required!" });
@@ -50,9 +57,16 @@ const updateProduct = asyncHandler(async (req, res) => {
       case !quantity:
         return res.json({ error: "quantity is required!" });
     }
+    
+    const updateData = { ...req.fields };
+    // Ensure countInStock is set, use quantity if countInStock is not provided
+    if (!updateData.countInStock && updateData.quantity) {
+      updateData.countInStock = updateData.quantity;
+    }
+    
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { ...req.fields },
+      updateData,
       { new: true }
     );
     await product.save();
@@ -66,7 +80,10 @@ const updateProduct = asyncHandler(async (req, res) => {
 const removeProduct = asyncHandler(async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: "Delete success" });
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.json({ message: "Delete success", name: product.name });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Server error" });
@@ -113,7 +130,7 @@ const fetchAllProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({})
       .populate("category")
       .limit(12)
-      .sort({ createAt: -1 });
+      .sort({ createdAt: -1 });
 
     res.json(products);
   } catch (error) {
@@ -169,7 +186,7 @@ const fetchTopProduct = asyncHandler(async(req, res) => {
     res.json(products)
   } catch (error) {
     console.log(error)
-    res.status(400).json(error.message)
+    res.status(400).json({error: error.message})
   }
 })
 
@@ -179,7 +196,7 @@ const fetchNewProduct = asyncHandler(async(req, res) => {
     res.json(products)
   } catch (error) {
     console.log(error)
-    res.status(400).json(error.message)
+    res.status(400).json({error: error.message})
   }
 })
 

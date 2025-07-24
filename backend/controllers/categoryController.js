@@ -41,7 +41,10 @@ const updateCategory = asyncHandler(async (req, res) => {
 const deleteCategory = asyncHandler(async (req, res) => {
   try {
     const removed = await Category.findByIdAndDelete(req.params.categoryID);
-    res.json({ message: "delete success" });
+    if (!removed) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+    res.json({ message: "delete success", name: removed.name });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error!" });
@@ -54,7 +57,7 @@ const listCategory = asyncHandler(async (req, res) => {
         res.json(all);
     } catch (error) {
         console.log(error);
-        res.status(500).json(error.message)
+        res.status(500).json({error: error.message})
     }
 });
 
@@ -64,7 +67,7 @@ const readCategory = asyncHandler(async(req, res) => {
         res.json(category);
     } catch (error) {
         console.log(error);
-        res.status(400).json(error.message)
+        res.status(400).json({error: error.message})
     }
 })
 export { createCategory, updateCategory, deleteCategory, listCategory ,readCategory};
