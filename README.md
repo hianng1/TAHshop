@@ -4,12 +4,12 @@ TAHshop is a full-stack e-commerce application built with modern web technologie
 
 **Vietnamese:** TAHshop là một ứng dụng thương mại điện tử full-stack được xây dựng bằng các công nghệ web hiện đại. Dự án có backend Node.js/Express với cơ sở dữ liệu MongoDB và frontend React với công cụ build Vite, được thiết kế để cung cấp trải nghiệm mua sắm trực tuyến hoàn chỉnh.
 ---
-#  Screenshot from web
-Homepage
+# 📦 Screenshot from web
+# Homepage
 ![Văn bản thay thế cho ảnh](/uploads/Screenshot_20250724_163009.png)
-Product detail page
+# Product detail page
 ![Văn bản thay thế cho ảnh](/uploads/Screenshot_20250724_163138.png)
-Cart
+# Cart
 ![Văn bản thay thế cho ảnh](/uploads/Screenshot_20250724_163217.png)
 ---
 
